@@ -18,8 +18,7 @@ app.use("/contact", contactRoute);
 
 
 
-mongoose.connect("mongodb+srv://ErnestRuzindana:epiphanie1973@ernestdb.466t9e4.mongodb.net/myPortfolio-db?retryWrites=true&w=majority",
-{useNewUrlParser: true});
+mongoose.connect(process.env.DB_CONNECT,{useNewUrlParser: true});
 
 mongoose.connection.once("open", ()=>{
     console.log("connected to Mongo DB");
@@ -27,7 +26,7 @@ mongoose.connection.once("open", ()=>{
 
 
 
-const port = 5000;
+const port = process.env.PORT_NUMBER;
 app.listen(port, ()=>{
     console.log(`The server is running on ${port}`);
 })

@@ -4,9 +4,9 @@ import express from "express";
 const app = express();
 
 import mongoose from "mongoose";
-
 import contactRoute from "./routes/contactRoute.js";
-
+import registerRoute from "./routes/registerRoute.js";
+import loginRoute from "./routes/loginRoute.js";
 
 
 app.use(bodyParser.json());
@@ -14,6 +14,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 
 app.use("/contact", contactRoute);
+app.use("/register", registerRoute);
+app.use("/login", loginRoute);
 
 
 

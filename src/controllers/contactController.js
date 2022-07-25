@@ -1,4 +1,3 @@
-import { request, response } from "express";
 import contact from "../models/contactModel.js";
 import contactValidationSchema from "../middlewares/contactValidation.js";
 
@@ -30,7 +29,7 @@ const sendMessage = async(request, response) =>{
         console.log(error);
         response.status(500).json({
             "status": "fail", 
-            "message": "Internal server error"
+            "message": error.message
         })
     } 
 }
@@ -53,7 +52,7 @@ const getAllMessages = async(request, response) =>{
         console.log(error);
         response.status(500).json({
             "status": "fail", 
-            "message": "Internal server error"
+            "message": error.message
         })
     }
 }
@@ -76,7 +75,7 @@ const deleteMessage = async(request, response) =>{
         console.log(error);
         response.status(500).json({
             "status": "fail", 
-            "message": "Internal server error"
+            "message": error.message
         })
     }
 }

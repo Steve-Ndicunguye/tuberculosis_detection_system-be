@@ -9,7 +9,7 @@ const loginUser = async(request, response) =>{
 
         if (!userEmail) 
             return response.status(400).json({
-                "message": "Invalid email, Please try again"
+                "invalidEmail": "Invalid email, Please try again"
             })
 
         
@@ -17,16 +17,16 @@ const loginUser = async(request, response) =>{
 
         if (!userPassword)
             return response.status(400).json({
-                "message": "Invalid password, Please try again"
+                "invalidPassword": "Invalid password, Please try again"
             })
 
         
         const token = Jwt.sign({userEmail: {id: userEmail.id, role: userEmail.role}} , process.env.ACCESS_TOKEN_SECRET)
-        
+        response.header("auth_token", token)
 
         const userRole = userEmail.role;
         response.set("token", token).send({
-            "message": "You are successfully logged in", "Access_Token": token, "role": userRole
+            "successMessage": "You are successfully logged in", "Access_Token": token, "role": userRole
         })
     }
 
@@ -34,7 +34,7 @@ const loginUser = async(request, response) =>{
         console.log(error)
         response.status(500).json({
             "status": "fail",
-            "message": error.message
+            "errorMessage": error.message
         })
     }
 }

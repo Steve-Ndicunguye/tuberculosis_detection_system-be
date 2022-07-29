@@ -8,16 +8,13 @@ const createNewUser = async(request, response) =>{
     const {error} = UserValidationSchema.validate(request.body)
 
     if (error)
-        return response.status(400).send(error.details[0].message)
-
+        return response.status(400).json({"validationError": error.details[0].message})
 
 
     const duplicatedEmail = await User.findOne({email: request.body.email})
 
     if (duplicatedEmail)
-        return response.status(409).json({
-            "message": `The user with email ${request.body.email} already exist`
-        })
+        return response.status(409).json({"message": `The user with email "${request.body.email}" already exist`})
 
     try{
         const salt = await bcrypt.genSalt()
@@ -35,16 +32,14 @@ const createNewUser = async(request, response) =>{
             repeatPassword: hashedRepeatPassword
         })
 
-        response.status(201).json({
-            "message": `The new user ${request.body.email} is created successfully!`
-        })
+        response.status(201).json({"successMessage": `The new user "${request.body.email}" is created successfully!`})
     }
 
     catch(error){
         console.log(error);
         response.status(500).json({
             "status": "fail",
-            "message": error.message
+            "errorMessage": error.message
         })
     }
 }

@@ -8,7 +8,7 @@ const sendMessage = async(request, response) =>{
     const {error} = contactValidationSchema.validate(request.body);
 
     if (error)
-        return response.status(400).send(error.details[0].message)
+        return response.status(400).json({"validationError": error.details[0].message})
 
 
     try{
@@ -20,7 +20,7 @@ const sendMessage = async(request, response) =>{
         })
     
         response.status(201).json({
-            "status": "message sent successfully!",
+            "successMessage": "message sent successfully!",
             "data": {"received message": receivedMessage}
         })
     }
@@ -29,7 +29,7 @@ const sendMessage = async(request, response) =>{
         console.log(error);
         response.status(500).json({
             "status": "fail", 
-            "message": error.message
+            "errorMessage": error.message
         })
     } 
 }

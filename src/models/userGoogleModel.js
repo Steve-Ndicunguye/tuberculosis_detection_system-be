@@ -2,31 +2,11 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema
 
-const userSchema = new Schema({
-    firstName: {
-        type: String,
-        required: true,
-    },
-
-    lastName: {
-        type: String,
-        required: true,
-    },
-
+const userGoogleSchema = new Schema({
     email: {
         type: String, 
         required: true,
-    },
-
-    password: {
-        type: String, 
-        required: true,
     }, 
-
-    repeatPassword: {
-        type: String,
-        required: true,
-    },
 
     dateCreated: {
         type: Date,
@@ -61,4 +41,4 @@ const userSchema = new Schema({
 })
 
 
-export default mongoose.model("User", userSchema)
+export default mongoose.model("UserGoogle", userGoogleSchema)

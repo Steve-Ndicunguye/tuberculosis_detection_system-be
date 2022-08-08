@@ -8,11 +8,13 @@ import mongoose from "mongoose";
 import contactRoute from "./routes/contactRoute.js";
 import registerRoute from "./routes/registerRoute.js";
 import googleRoute from "./routes/googleRoute.js";
+import facebookRoute from "./routes/facebookRoute.js";
 import loginRoute from "./routes/loginRoute.js";
 import passport from "passport";
 import expressSession from "express-session";
 import MemoryStore from "memorystore";
 import cookieParser from "cookie-parser";
+
 
 
 
@@ -49,6 +51,7 @@ app.use("/contact", cors(corsOptions), contactRoute);
 app.use("/register", cors(corsOptions), registerRoute);
 app.use("/login", cors(corsOptions), loginRoute);
 app.use("/", cors(corsOptions), googleRoute);
+app.use("/", cors(corsOptions), facebookRoute);
 
 
 

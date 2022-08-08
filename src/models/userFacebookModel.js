@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema
 
-const userGoogleSchema = new Schema({
+const userFacebookSchema = new Schema({
     email: {
         type: String, 
         required: true,
@@ -30,7 +30,7 @@ const userGoogleSchema = new Schema({
         default: false
     },
 
-    googleId: {
+    facebookId: {
         type: String
     },
 
@@ -45,4 +45,4 @@ const userGoogleSchema = new Schema({
 })
 
 
-export default mongoose.model("UserGoogle", userGoogleSchema)
+export default mongoose.model("UserFacebook", userFacebookSchema)

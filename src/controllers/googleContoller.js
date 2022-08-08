@@ -7,13 +7,13 @@ import {Strategy as googleStrategy} from "passport-google-oauth20"
 
 const googleCredentials = (passport)=>{
     passport.use(new googleStrategy({
-        clientID: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: "http://localhost:5000/google/callback"
     }, 
     
     (accessToken, refreshToken, profile, done)=>{
-        console.log(profile.emails[0].value),
+        console.log(profile),
         UserGoogle.findOne({
             email: profile.emails[0].value
         })

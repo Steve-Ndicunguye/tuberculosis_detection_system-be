@@ -21,12 +21,43 @@ const loginUser = async(request, response) =>{
             })
 
         
-        const token = Jwt.sign({userEmail: {id: userEmail.id, role: userEmail.role}} , process.env.ACCESS_TOKEN_SECRET)
+        const token = Jwt.sign({userEmail} , process.env.ACCESS_TOKEN_SECRET)
         response.header("auth_token", token)
 
         const userRole = userEmail.role;
-        response.set("token", token).send({
+        response.set("token", token).json({
             "successMessage": "You are successfully logged in", "Access_Token": token, "role": userRole
+        })
+    }
+
+    catch(error){
+        console.log(error)
+        response.status(500).json({
+            "status": "Fail",
+            "errorMessage": error.message
+        })
+    }
+}
+
+
+const loggedInUser = async(request, response) =>{
+    try{
+      const token = request.header("auth_token")
+      
+      if(!token)
+        return response.status(401).json({
+            "message": "Please login!"
+        })
+
+        Jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decodedToken)=>{
+            if(err){
+                console.log(err.message)
+            }
+
+            else{
+                console.log(decodedToken)
+                response.status(200).json(decodedToken)
+            }
         })
     }
 
@@ -40,5 +71,4 @@ const loginUser = async(request, response) =>{
 }
 
 
-
-export default {loginUser}
+export default {loginUser, loggedInUser}

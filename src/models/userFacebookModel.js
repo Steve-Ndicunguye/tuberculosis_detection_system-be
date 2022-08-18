@@ -30,6 +30,10 @@ const userFacebookSchema = new Schema({
         default: false
     },
 
+    picture: {
+        type: String
+    },
+
     facebookId: {
         type: String
     },

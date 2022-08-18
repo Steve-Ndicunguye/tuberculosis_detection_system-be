@@ -25,8 +25,10 @@ const githubCredentials = (passport)=>{
             else {
                 UserGithub.create({
                     userName: profile.displayName,
+                    email: profile.username,
                     githubId: profile.id,
                     password: null,
+                    picture: profile.photos[0].value,
                     provider: "github",
                     isVerified: true
                 })

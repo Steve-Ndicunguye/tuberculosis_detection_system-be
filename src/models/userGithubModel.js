@@ -24,6 +24,10 @@ const userGithubSchema = new Schema({
         required: true
     },
 
+    picture: {
+        type: String
+    },
+
     isVerified: {
         type: Boolean,
         default: false

@@ -9,7 +9,7 @@ const loginUser = async(request, response) =>{
 
         if (!userEmail) 
             return response.status(400).json({
-                "invalidEmail": "Invalid email, Please try again"
+                "invalidEmail": "Invalid email or password, Please try again"
             })
 
         
@@ -17,7 +17,7 @@ const loginUser = async(request, response) =>{
 
         if (!userPassword)
             return response.status(400).json({
-                "invalidPassword": "Invalid password, Please try again"
+                "invalidPassword": "Invalid email or password, Please try again"
             })
 
         

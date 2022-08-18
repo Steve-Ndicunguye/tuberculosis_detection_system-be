@@ -13,11 +13,12 @@ const googleCredentials = (passport)=>{
     }, 
     
     (accessToken, refreshToken, profile, done)=>{
-        console.log(profile),
+        // console.log(profile),
         UserGoogle.findOne({
             email: profile.emails[0].value
         })
         .then((data)=>{
+            console.log(data)
             if (data){
                 return done(null, data)
             }
@@ -28,6 +29,7 @@ const googleCredentials = (passport)=>{
                     email: profile.emails[0].value,
                     googleId: profile.id,
                     password: null,
+                    picture: profile.photos[0].value,
                     provider: "google",
                     isVerified: true
                 })
@@ -36,7 +38,9 @@ const googleCredentials = (passport)=>{
         })
     }))
 
+    
     passport.serializeUser(function (user, done) {
+        // console.log(user)
         done(null, user.id);
     });
 

@@ -15,6 +15,7 @@ import passport from "passport";
 import expressSession from "express-session";
 import MemoryStore from "memorystore";
 import cookieParser from "cookie-parser";
+import socialMediaLoggedInUser from "./routes/socialMediaRoute.js";
 
 
 
@@ -54,6 +55,7 @@ app.use("/login", cors(corsOptions), loginRoute);
 app.use("/", cors(corsOptions), googleRoute);
 app.use("/", cors(corsOptions), facebookRoute);
 app.use("/", cors(corsOptions), githubRoute);
+app.use("/", cors(corsOptions), socialMediaLoggedInUser);
 
 
 

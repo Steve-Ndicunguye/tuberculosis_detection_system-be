@@ -10,7 +10,7 @@ const facebookCredentials = (passport)=>{
         clientID: process.env.FACEBOOK_CLIENT_ID,
         clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
         callbackURL: "http://localhost:5000/facebook/callback",
-        profileFields: ["id", "displayName", "email", "name"]
+        profileFields: ["id", "displayName", "email", "name", "picture"]
     }, 
     
     (accessToken, refreshToken, profile, done)=>{
@@ -29,6 +29,7 @@ const facebookCredentials = (passport)=>{
                     email: profile.emails[0].value,
                     facebookId: profile.id,
                     password: null,
+                    picture: profile.photos[0].value,
                     provider: "facebook",
                     isVerified: true
                 })

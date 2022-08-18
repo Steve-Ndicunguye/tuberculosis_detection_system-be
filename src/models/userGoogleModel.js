@@ -41,6 +41,10 @@ const userGoogleSchema = new Schema({
     provider: {
         type: String,
         required: true
+    },
+
+    picture: {
+        type: String,
     }
 })
 

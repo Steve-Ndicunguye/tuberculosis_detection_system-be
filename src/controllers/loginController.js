@@ -49,14 +49,16 @@ const loggedInUser = async(request, response) =>{
             "message": "Please login!"
         })
 
-        Jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decodedToken)=>{
+        Jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decodedToken)=>{
             if(err){
                 console.log(err.message)
             }
 
             else{
                 console.log(decodedToken)
-                response.status(200).json(decodedToken)
+
+                const myLoggedInUser = await User.findById(decodedToken.userEmail._id)
+                response.status(200).json(myLoggedInUser)
             }
         })
     }

@@ -24,17 +24,21 @@ const facebookCredentials = (passport)=>{
             }
 
             else {
-                UserFacebook.create({
-                    userName: profile.displayName,
-                    email: profile.emails[0].value,
-                    facebookId: profile.id,
-                    password: null,
-                    picture: profile.photos[0].value,
-                    provider: "facebook",
-                    isVerified: true
+                const newFacebookUser = new UserFacebook()
+
+                newFacebookUser.userName = profile.displayName,
+                newFacebookUser.email = profile.emails[0].value,
+                newFacebookUser.githubId = profile.id,
+                newFacebookUser.password = null,
+                newFacebookUser.picture = profile.photos[0].value,
+                newFacebookUser.provider = "facebook",
+                newFacebookUser.isVerified = true
+
+                newFacebookUser.save(function(error){
+                    if (error) throw error;
+                    return done(null, newFacebookUser)
                 })
-                return done(null, data)
-            } 
+            }
         })
     }))
 

@@ -23,16 +23,20 @@ const githubCredentials = (passport)=>{
             }
 
             else {
-                UserGithub.create({
-                    userName: profile.displayName,
-                    email: profile.username,
-                    githubId: profile.id,
-                    password: null,
-                    picture: profile.photos[0].value,
-                    provider: "github",
-                    isVerified: true
+                const newGithubUser = new UserGithub()
+
+                newGithubUser.userName = profile.displayName,
+                newGithubUser.email = profile.username,
+                newGithubUser.githubId = profile.id,
+                newGithubUser.password = null,
+                newGithubUser.picture = profile.photos[0].value,
+                newGithubUser.provider = "github",
+                newGithubUser.isVerified = true
+
+                newGithubUser.save(function(error){
+                    if (error) throw error;
+                    return done(null, newGithubUser)
                 })
-                return done(null, data)
             } 
         })
     }))

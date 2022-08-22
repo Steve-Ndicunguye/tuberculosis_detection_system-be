@@ -24,17 +24,21 @@ const googleCredentials = (passport)=>{
             }
 
             else {
-                UserGoogle.create({
-                    userName: profile.displayName,
-                    email: profile.emails[0].value,
-                    googleId: profile.id,
-                    password: null,
-                    picture: profile.photos[0].value,
-                    provider: "google",
-                    isVerified: true
+                const newUserGoogle = new UserGoogle()
+
+                newUserGoogle.userName = profile.displayName,
+                newUserGoogle.email = profile.emails[0].value,
+                newUserGoogle.githubId = profile.id,
+                newUserGoogle.password = null,
+                newUserGoogle.picture = profile.photos[0].value,
+                newUserGoogle.provider = "google",
+                newUserGoogle.isVerified = true
+
+                newUserGoogle.save(function(error){
+                    if (error) throw error;
+                    return done(null, newUserGoogle)
                 })
-                return done(null, data)
-            } 
+            }
         })
     }))
 

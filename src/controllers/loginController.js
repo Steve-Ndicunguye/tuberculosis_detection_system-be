@@ -73,4 +73,64 @@ const loggedInUser = async(request, response) =>{
 }
 
 
-export default {loginUser, loggedInUser}
+
+// update user profile
+
+const updateUser = async(request, response) =>{
+    try{
+      const token = request.header("auth_token")
+      
+      if(!token)
+        return response.status(401).json({
+            "message": "Please login!"
+        })
+
+        Jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decodedToken)=>{
+            if(err){
+                console.log(err.message)
+            }
+
+            else{
+                const ourLoggedInUser = await User.findById(decodedToken.userEmail._id) 
+
+                if (ourLoggedInUser){
+                    ourLoggedInUser.firstName = request.body.firstName || ourLoggedInUser.firstName,
+                    ourLoggedInUser.lastName = request.body.lastName || ourLoggedInUser.lastName,
+                    ourLoggedInUser.email = request.body.email || ourLoggedInUser.email,
+                    ourLoggedInUser.bio = request.body.bio || ourLoggedInUser.bio,
+                    ourLoggedInUser.imageLink = request.body.imageLink || ourLoggedInUser.imageLink
+
+                    const updatedUser = await ourLoggedInUser.save()
+
+                    const newUser = {
+                        firstName: updatedUser.firstName,
+                        lastName: updatedUser.lastName,
+                        email: updatedUser.email,
+                        bio: updatedUser.bio,
+                        imageLink: updatedUser.imageLink
+                    }
+
+                    response.status(200).json({
+                        "message": "User updated successfully!",
+                        "ourUpdatedUser": newUser
+                    })
+                }
+
+                else{
+                    response.status(404).json({"message": "User not found!"})
+                }
+            }
+        })
+    }
+
+    catch(error){
+        console.log(error)
+        response.status(500).json({
+            "status": "fail",
+            "errorMessage": error.message
+        })
+    }
+}
+
+
+export default {loginUser, loggedInUser, updateUser}

@@ -18,6 +18,14 @@ const userSchema = new Schema({
         required: true,
     },
 
+    bio: {
+        type: String
+    },
+
+    imageLink: {
+        type: String
+    },
+
     password: {
         type: String, 
         required: true,
@@ -42,7 +50,6 @@ const userSchema = new Schema({
     // for third application
     userName: {
         type: String,
-        required: true
     },
 
     isVerified: {
@@ -56,7 +63,6 @@ const userSchema = new Schema({
 
     provider: {
         type: String,
-        required: true
     }
 })
 

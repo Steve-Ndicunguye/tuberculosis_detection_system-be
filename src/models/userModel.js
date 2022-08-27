@@ -22,6 +22,22 @@ const userSchema = new Schema({
         type: String
     },
 
+    profileFacebook: {
+        type: String
+    },
+
+    profileTwitter: {
+        type: String
+    },
+
+    profileLinkedin: {
+        type: String
+    },
+
+    profileInstagram:{
+        type: String
+    },
+
     imageLink: {
         type: String
     },

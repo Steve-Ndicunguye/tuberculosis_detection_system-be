@@ -98,7 +98,11 @@ const updateUser = async(request, response) =>{
                     ourLoggedInUser.lastName = request.body.lastName || ourLoggedInUser.lastName,
                     ourLoggedInUser.email = request.body.email || ourLoggedInUser.email,
                     ourLoggedInUser.bio = request.body.bio || ourLoggedInUser.bio,
-                    ourLoggedInUser.imageLink = request.body.imageLink || ourLoggedInUser.imageLink
+                    ourLoggedInUser.imageLink = request.body.imageLink || ourLoggedInUser.imageLink,
+                    ourLoggedInUser.profileFacebook = request.body.profileFacebook || ourLoggedInUser.profileFacebook,
+                    ourLoggedInUser.profileTwitter = request.body.profileTwitter || ourLoggedInUser.profileTwitter,
+                    ourLoggedInUser.profileLinkedin = request.body.profileLinkedin || ourLoggedInUser.profileLinkedin,
+                    ourLoggedInUser.profileInstagram = request.body.profileInstagram || ourLoggedInUser.profileInstagram
 
                     const updatedUser = await ourLoggedInUser.save()
 
@@ -107,7 +111,11 @@ const updateUser = async(request, response) =>{
                         lastName: updatedUser.lastName,
                         email: updatedUser.email,
                         bio: updatedUser.bio,
-                        imageLink: updatedUser.imageLink
+                        imageLink: updatedUser.imageLink,
+                        profileFacebook: updatedUser.profileFacebook,
+                        profileTwitter: updatedUser.profileTwitter,
+                        profileLinkedin: updatedUser.profileLinkedin,   
+                        profileInstagram: updatedUser.profileInstagram
                     }
 
                     response.status(200).json({

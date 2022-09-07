@@ -98,13 +98,14 @@ const updateUser = async(request, response) =>{
                     ourLoggedInUser.lastName = request.body.lastName || ourLoggedInUser.lastName,
                     ourLoggedInUser.email = request.body.email || ourLoggedInUser.email,
                     ourLoggedInUser.bio = request.body.bio || ourLoggedInUser.bio,
-                    ourLoggedInUser.imageLink = request.body.imageLink || ourLoggedInUser.imageLink,
+                    ourLoggedInUser.imageLink = request.file.filename || ourLoggedInUser.imageLink,
                     ourLoggedInUser.profileFacebook = request.body.profileFacebook || ourLoggedInUser.profileFacebook,
                     ourLoggedInUser.profileTwitter = request.body.profileTwitter || ourLoggedInUser.profileTwitter,
                     ourLoggedInUser.profileLinkedin = request.body.profileLinkedin || ourLoggedInUser.profileLinkedin,
                     ourLoggedInUser.profileInstagram = request.body.profileInstagram || ourLoggedInUser.profileInstagram
 
                     const updatedUser = await ourLoggedInUser.save()
+                    console.log(request.file)
 
                     const newUser = {
                         firstName: updatedUser.firstName,

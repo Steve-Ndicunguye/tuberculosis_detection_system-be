@@ -52,6 +52,10 @@ const userSchema = new Schema({
         required: true,
     },
 
+    emailToken: {
+        type: String
+    },
+
     dateCreated: {
         type: Date,
         default: Date.now,

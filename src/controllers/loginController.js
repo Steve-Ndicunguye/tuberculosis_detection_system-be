@@ -1,6 +1,7 @@
 import User from "../models/userModel.js"
 import bcrypt from "bcrypt"
 import Jwt from "jsonwebtoken"
+import { object } from "@hapi/joi"
 
 
 const loginUser = async(request, response) =>{
@@ -10,6 +11,11 @@ const loginUser = async(request, response) =>{
         if (!userEmail) 
             return response.status(400).json({
                 "invalidEmail": "Invalid email or password, Please try again"
+            })
+
+        if(!userEmail.isVerified)
+            return response.status(400).json({
+                "invalidEmail": "Please go to your email to verify your account!"
             })
 
         
@@ -74,6 +80,41 @@ const loggedInUser = async(request, response) =>{
 
 
 
+// forgot password
+
+const forgotPassword = async(request, response) =>{
+    try{
+        const userEmailResetPassword = await User.findOne({email: request.body.email})
+
+        if (!userEmailResetPassword) 
+            return response.status(400).json({
+                "invalidEmail": `Email ${request.body.email} is not registered`
+            })
+
+        if(!userEmailResetPassword.isVerified)
+            return response.status(400).json({
+                "invalidEmail": "Please go to your email to verify your account!"
+            })
+
+        
+        const secret = process.env.FORGOTPASSWORD_RESET_SECRET + userEmailResetPassword.password
+
+        const resetPasswordToken = Jwt.sign({userEmailResetPassword}, secret)
+            response.header("auth_token", resetPasswordToken)
+    }
+    
+
+    catch(error){
+        console.log(error)
+        response.status(500).json({
+            "status": "fail",
+            "errorMessage": error.message
+        })
+    }
+}
+
+
+
 // update user profile
 
 const updateUser = async(request, response) =>{
@@ -94,16 +135,22 @@ const updateUser = async(request, response) =>{
                 const ourLoggedInUser = await User.findById(decodedToken.userEmail._id) 
 
                 if (ourLoggedInUser){
-                    ourLoggedInUser.firstName = request.body.firstName || ourLoggedInUser.firstName,
-                    ourLoggedInUser.lastName = request.body.lastName || ourLoggedInUser.lastName,
-                    ourLoggedInUser.email = request.body.email || ourLoggedInUser.email,
-                    ourLoggedInUser.bio = request.body.bio || ourLoggedInUser.bio,
-                    ourLoggedInUser.imageLink = request.file.filename || ourLoggedInUser.imageLink,
-                    ourLoggedInUser.profileFacebook = request.body.profileFacebook || ourLoggedInUser.profileFacebook,
-                    ourLoggedInUser.profileTwitter = request.body.profileTwitter || ourLoggedInUser.profileTwitter,
-                    ourLoggedInUser.profileLinkedin = request.body.profileLinkedin || ourLoggedInUser.profileLinkedin,
-                    ourLoggedInUser.profileInstagram = request.body.profileInstagram || ourLoggedInUser.profileInstagram
-
+                    if (!request.file){
+                        ourLoggedInUser.firstName = request.body.firstName || ourLoggedInUser.firstName,
+                        ourLoggedInUser.lastName = request.body.lastName || ourLoggedInUser.lastName,
+                        ourLoggedInUser.email = request.body.email || ourLoggedInUser.email,
+                        ourLoggedInUser.bio = request.body.bio || ourLoggedInUser.bio,
+                        ourLoggedInUser.profileFacebook = request.body.profileFacebook || ourLoggedInUser.profileFacebook,
+                        ourLoggedInUser.profileTwitter = request.body.profileTwitter || ourLoggedInUser.profileTwitter,
+                        ourLoggedInUser.profileLinkedin = request.body.profileLinkedin || ourLoggedInUser.profileLinkedin,
+                        ourLoggedInUser.profileInstagram = request.body.profileInstagram || ourLoggedInUser.profileInstagram
+                    }
+                    
+                    else{
+                        ourLoggedInUser.imageLink = request.file.filename || ourLoggedInUser.imageLink
+                    }
+                    
+                    
                     const updatedUser = await ourLoggedInUser.save()
                     console.log(request.file)
 
@@ -117,6 +164,36 @@ const updateUser = async(request, response) =>{
                         profileTwitter: updatedUser.profileTwitter,
                         profileLinkedin: updatedUser.profileLinkedin,   
                         profileInstagram: updatedUser.profileInstagram
+                    }
+
+                    if(request.body.profileFacebook == ""){
+                        ourLoggedInUser.profileFacebook = undefined;
+                        delete ourLoggedInUser.profileFacebook;
+                        await ourLoggedInUser.save()
+                    }
+
+                    if(request.body.profileTwitter == ""){
+                        ourLoggedInUser.profileTwitter = undefined;
+                        delete ourLoggedInUser.profileTwitter;
+                        await ourLoggedInUser.save()
+                    }
+
+                    if(request.body.profileInstagram == ""){
+                        ourLoggedInUser.profileInstagram = undefined;
+                        delete ourLoggedInUser.profileInstagram;
+                        await ourLoggedInUser.save()
+                    }
+
+                    if(request.body.profileLinkedin == ""){
+                        ourLoggedInUser.profileLinkedin = undefined;
+                        delete ourLoggedInUser.profileLinkedin;
+                        await ourLoggedInUser.save()
+                    }
+
+                    if(request.body.bio == ""){
+                        ourLoggedInUser.bio = undefined;
+                        delete ourLoggedInUser.bio;
+                        await ourLoggedInUser.save()
                     }
 
                     response.status(200).json({
@@ -142,4 +219,4 @@ const updateUser = async(request, response) =>{
 }
 
 
-export default {loginUser, loggedInUser, updateUser}
+export default {loginUser, loggedInUser, updateUser, forgotPassword}

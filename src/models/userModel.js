@@ -56,6 +56,10 @@ const userSchema = new Schema({
         type: String
     },
 
+    resetToken: {
+        type: String
+    },
+
     dateCreated: {
         type: Date,
         default: Date.now,

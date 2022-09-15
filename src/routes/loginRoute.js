@@ -23,9 +23,15 @@ const router = express.Router()
 
 router.post("/loginUser", loginController.loginUser)
 
+router.post("/forgotPassword", loginController.forgotPassword)
+
+router.get("/resetPassword", loginController.resetPassword)
+
+router.put("/newPassword", loginController.newPassword)
+
 router.get("/loggedInUser", loginController.loggedInUser)
 
-router.post("/updateUser", upload.single("profileImage"), loginController.updateUser)
+router.put("/updateUser", upload.single("profileImage"), loginController.updateUser)
 
 
 

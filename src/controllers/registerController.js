@@ -57,7 +57,7 @@ const createNewUser = async(request, response) =>{
             subject: "Ernest's portfolio verify your email",
             html: `
             <div style="padding: 10px;">
-                <h3> <span style="color: #cba10a;">${receiverEmail.firstName} ${receiverEmail.lastName}</span> Thank you for registering on my website! </h3> 
+                <h3> <span style="color: #cba10a;">${receiverEmail.firstName} ${receiverEmail.lastName} - </span> Thank you for registering on my website! </h3> 
                 <h4> Please verify your email to continue... </h4>
                 <a style="border-radius: 5px; margin-bottom: 10px; text-decoration: none; color: white; padding: 10px; cursor: pointer; background: #cba10a;" 
                 href="http://${request.headers.host}/register/verifyEmail?token=${receiverEmail.emailToken}"> 

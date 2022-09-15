@@ -1,5 +1,5 @@
 import contact from "../models/contactModel.js";
-import contactValidationSchema from "../middlewares/contactValidation.js";
+import contactValidationSchema from "../validations/contactValidation.js";
 
 
 const sendMessage = async(request, response) =>{

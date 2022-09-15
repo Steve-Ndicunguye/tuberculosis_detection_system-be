@@ -1,6 +1,6 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
-import UserValidationSchema from "../middlewares/registerValidation.js";
+import UserValidationSchema from "../validations/registerValidation.js";
 import nodemailer from "nodemailer"
 import crypto from "crypto"
 

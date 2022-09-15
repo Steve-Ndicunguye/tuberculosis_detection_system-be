@@ -2,6 +2,8 @@ import User from "../models/userModel.js"
 import bcrypt from "bcrypt"
 import Jwt from "jsonwebtoken"
 import nodemailer from "nodemailer"
+import forgotPasswordValidationSchema from "../validations/forgotPasswordValidation.js"
+import resetPasswordValidationSchema from "../validations/resetPasswordValidation.js"
 
 
 
@@ -85,6 +87,12 @@ const loggedInUser = async(request, response) =>{
 
 const forgotPassword = async(request, response) =>{
     try{
+        const {error} = forgotPasswordValidationSchema.validate(request.body)
+
+        if (error)
+            return response.status(400).json({"validationError": error.details[0].message})
+
+
         const userEmailResetPassword = await User.findOne({email: request.body.email})
 
         if (!userEmailResetPassword) 
@@ -94,14 +102,13 @@ const forgotPassword = async(request, response) =>{
 
         if(!userEmailResetPassword.isVerified)
             return response.status(400).json({
-                "invalidEmail": "This email is not verified!"
+                "unverifiedEmail": "This email is not verified!"
             })
 
         
 
         const resetPasswordToken = Jwt.sign({userEmailResetPassword}, process.env.FORGOTPASSWORD_RESET_SECRET)
             response.header("auth_token", resetPasswordToken)
-            console.log(resetPasswordToken)
 
             await userEmailResetPassword.updateOne({
                 resetToken: resetPasswordToken
@@ -143,7 +150,10 @@ const forgotPassword = async(request, response) =>{
             else{
                 console.log("Please check your account to reset your password")
 
-                response.status(200).json({"resetSuccess": "Please check your account to reset your password"})
+                response.status(200).json({
+                    "resetSuccess": "Please check your account to reset your password",
+                    "forgotPasswordResetToken": resetPasswordToken
+                })
             }
         })
 
@@ -203,6 +213,13 @@ const resetPassword = async(request, response) =>{
 
 const newPassword = async(request, response) =>{
     try{
+
+        const {error} = resetPasswordValidationSchema.validate(request.body)
+
+        if (error)
+            return response.status(400).json({"validationError": error.details[0].message})
+
+
         const token = request.header("auth_token")
 
         if(!token)

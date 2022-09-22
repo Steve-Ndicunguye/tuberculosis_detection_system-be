@@ -13,19 +13,25 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({
-  storage: storage,
-  limits: {
-    fieldSize: 1024 * 1024 * 3,
+
+const upload = multer({storage: storage}).fields([
+  {
+    name: "postImage", 
+    maxCount: 1
   },
-});
+
+  {
+    name: "headerImage", 
+    maxCount: 1
+  }
+])
 
 const router = express.Router()
 
-router.post("/createPost", upload.single("postImage"), blogController.createPost);
+router.post("/createPost", upload, blogController.createPost);
 router.get("/getAllPosts", blogController.getPosts);
 router.get("/getSinglePost/:id", blogController.getSinglePost);
-router.put("/updatePost/:id", upload.single("postImage"), blogController.updatePost);
+router.put("/updatePost/:id", upload, blogController.updatePost);
 router.delete("/deletePost/:id", blogController.deletePost);
 
 

@@ -9,7 +9,9 @@ const blogValidationSchema = Joi.object({
         "string.empty": "The body can not be empty"
     }),
 
-    postImage: Joi.string()
+    postImage: Joi.string(),
+
+    headerImage: Joi.string()
 
 })
 

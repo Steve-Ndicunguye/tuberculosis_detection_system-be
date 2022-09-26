@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 });
 
 
-const upload = multer({storage: storage}).fields([
+const upload = multer({storage: storage, limits: {fieldSize: 25*1024*1024}}).fields([
   {
     name: "postImage", 
     maxCount: 1

@@ -11,7 +11,11 @@ const blogValidationSchema = Joi.object({
 
     postImage: Joi.string(),
 
-    headerImage: Joi.string()
+    headerImage: Joi.string(),
+
+    authorName: Joi.string(),
+    authorImage: Joi.string(),
+    dateCreated: Joi.string()
 
 })
 

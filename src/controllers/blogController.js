@@ -20,7 +20,10 @@ const createPost = async(request, response) =>{
         newPost.title = request.body.title,
         newPost.postBody = request.body.postBody,
         newPost.postImage = postImageLink,
-        newPost.headerImage = headerImageLink
+        newPost.headerImage = headerImageLink,
+        newPost.authorName = request.body.authorName,
+        newPost.authorImage = request.body.authorImage,
+        newPost.dateCreated = request.body.dateCreated
 
         await newPost.save()
 

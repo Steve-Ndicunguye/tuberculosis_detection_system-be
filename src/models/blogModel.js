@@ -24,8 +24,15 @@ const blogSchema = new Schema({
     },
 
     dateCreated: {
-        type: Date,
-        default: Date.now,
+        type: String
+    },
+
+    authorName: {
+        type: String
+    },
+
+    authorImage: {
+        type: String
     }
 
 })

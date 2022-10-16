@@ -120,7 +120,7 @@ const getAllUsers = async(request, response) =>{
     try{
         const RegisterUsers = await User.find()
 
-        response.status(200).json({"Registered users": RegisterUsers})
+        response.status(200).json({"RegisteredUsers": RegisterUsers})
     }
 
     catch (error){
@@ -132,4 +132,50 @@ const getAllUsers = async(request, response) =>{
     }
 }
 
-export default {createNewUser, getAllUsers, verifyEmail}
+const getUserById = async (req, res) => {
+
+    try{
+        const user = await User.findOne({_id: req.params.id});
+        if(user){
+            res.status(200).json({ "fetchedUser": user });
+        }
+
+        else{
+            res.status(400).json({
+                "userFetchedError": "User not found",
+            });
+        }
+
+    }
+
+    catch (error){
+        console.log(error);
+        res.status(500).json({
+            "status": "fail",
+            "message": error.message
+        })
+    }
+
+}
+
+const assignUserRole = async(request, response) =>{
+    try{
+        const user = await User.findOne({_id: request.params.id});
+
+        user.role = request.body.role
+
+        await user.save();
+
+        response.status(200).json({ "successMessage": `Role updated successfully!`, "role": user.role })
+    }
+
+    catch (error){
+        console.log(error);
+        response.status(500).json({
+            "status": "fail",
+            "message": error.message
+        })
+    }
+}
+
+export default {createNewUser, getAllUsers, verifyEmail, assignUserRole, getUserById}

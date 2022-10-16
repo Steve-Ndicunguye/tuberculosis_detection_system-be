@@ -21,7 +21,7 @@ const sendMessage = async(request, response) =>{
     
         response.status(201).json({
             "successMessage": "message sent successfully!",
-            "data": {"received message": receivedMessage}
+            "received message": receivedMessage
         })
     }
     
@@ -44,7 +44,7 @@ const getAllMessages = async(request, response) =>{
 
         response.status(200).json({
             "status": "Successfully retrieved all the messages!",
-            "data": {"messages from clients": clientMessages}
+            "clientMessages": clientMessages
         })
     }
 
@@ -67,7 +67,28 @@ const deleteMessage = async(request, response) =>{
 
         response.status(200).json({
             "status": "success",
-            "message": "The message was deleted successfully!"
+            "deletedMessage": "The message was deleted successfully!"
+        })
+    }
+
+    catch(error){
+        console.log(error);
+        response.status(500).json({
+            "status": "fail", 
+            "message": error.message
+        })
+    }
+}
+
+const deleteMessage = async(request, response) =>{
+    try{
+        const MessageToBeDeleted = await contact.findOne({_id: request.params.id});
+
+        await MessageToBeDeleted.deleteOne({_id: request.params.id});
+
+        response.status(200).json({
+            "status": "success",
+            "deletedMessage": "The message was deleted successfully!"
         })
     }
 

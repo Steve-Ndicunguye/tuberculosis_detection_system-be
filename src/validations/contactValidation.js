@@ -20,7 +20,9 @@ const contactValidationSchema = joi.object({
     
     message: joi.string().label("message").required().messages({
         "string.empty": "The message field can not be empty"
-    })
+    }),
+
+    replyMessage: joi.string()
 })
 
 

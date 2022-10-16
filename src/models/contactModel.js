@@ -23,6 +23,10 @@ const contactSchema = new Schema ({
         required: true
     },
 
+    replyMessage: {
+        type: String
+    },
+
     dateCreated: {
         type: Date, 
         default: Date.now

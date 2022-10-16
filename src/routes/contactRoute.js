@@ -10,5 +10,9 @@ router.get("/getAllMessages", contactController.getAllMessages);
 
 router.delete("/deleteMessage/:id", contactController.deleteMessage);
 
+router.put("/replyMessage/:id", contactController.replyMessage);
+
+router.get("/getMessageById/:id", contactController.getMessageById);
+
 export default router;
 

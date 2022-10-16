@@ -1,6 +1,6 @@
 import contact from "../models/contactModel.js";
 import contactValidationSchema from "../validations/contactValidation.js";
-
+import nodemailer from "nodemailer"
 
 const sendMessage = async(request, response) =>{
 
@@ -22,6 +22,47 @@ const sendMessage = async(request, response) =>{
         response.status(201).json({
             "successMessage": "message sent successfully!",
             "received message": receivedMessage
+        })
+
+        // Email sender details
+        const transporter = nodemailer.createTransport({
+            service:"gmail",
+            auth: {
+                user: request.body.email,
+                pass: process.env.NODEMAILER_PASSWORD
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        })
+
+        // Send verification email to user
+        const mailOptions = {
+            from: `"${request.body.names}"`,
+            to: "niyonshutijeanette4@gmail.com",
+            subject: "You have a new client message",
+            html: `
+            <div style="padding: 10px;"> 
+                <h4> 
+                ${request.body.message}
+                </h4>
+            </div>
+            `
+        }
+
+        // Sending the email
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                console.log(error)
+            }
+
+            else{
+                console.log("Message sent!")
+                 
+            }
+            response.status(200).json({
+                "replyMessageSuccess": "Message sent!"
+            })
         })
     }
     
@@ -57,6 +98,25 @@ const getAllMessages = async(request, response) =>{
     }
 }
 
+const getMessageById = async(request, response) =>{
+    try{
+        const clientMessage = await contact .findOne({_id: request.params.id});
+
+        response.status(200).json({
+            "clientMessageSuccess": "Successfully retrieved the message!",
+            "clientMessage": clientMessage
+        })
+    }
+
+    catch(error){
+        console.log(error);
+        response.status(500).json({
+            "status": "fail", 
+            "message": error.message
+        })
+    }
+}
+
 
 
 const deleteMessage = async(request, response) =>{
@@ -80,25 +140,65 @@ const deleteMessage = async(request, response) =>{
     }
 }
 
-const deleteMessage = async(request, response) =>{
+const replyMessage = async (request, response) => {
     try{
-        const MessageToBeDeleted = await contact.findOne({_id: request.params.id});
+        const senderMessage = await contact.findOne({_id: request.params.id});
 
-        await MessageToBeDeleted.deleteOne({_id: request.params.id});
+        senderMessage.replyMessage = request.body.replyMessage
+        await senderMessage.save();
 
-        response.status(200).json({
-            "status": "success",
-            "deletedMessage": "The message was deleted successfully!"
+    // Email sender details
+        const transporter = nodemailer.createTransport({
+            service:"gmail",
+            auth: {
+                user: "elannodeveloper@gmail.com",
+                pass: process.env.NODEMAILER_PASSWORD
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
         })
-    }
 
-    catch(error){
+        // Send verification email to user
+        const mailOptions = {
+            from: '"Ernest RUZINDANA" <elannodeveloper@gmail.com>',
+            to: senderMessage.email,
+            subject: "Ernest's portfolio reply message",
+            html: `
+            <div style="padding: 10px;">
+                <h3> <span style="color: #414A4C;">${senderMessage.names}</span> thank you for your message! </h3> 
+                <h4> 
+                ${senderMessage.replyMessage}
+                </h4>
+            </div>
+            `
+        }
+
+        // Sending the email
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                console.log(error)
+            }
+
+            else{
+                console.log("Message sent!")
+                 
+            }
+            response.status(200).json({
+                "replyMessageSuccess": "Message sent!",
+                "repliedMessage": senderMessage.replyMessage
+            })
+        })
+
+    } 
+    
+    catch (error){
         console.log(error);
         response.status(500).json({
-            "status": "fail", 
+            "status": "fail",
             "message": error.message
         })
     }
 }
 
-export default {sendMessage, getAllMessages, deleteMessage};
+export default {sendMessage, getAllMessages, deleteMessage, replyMessage, getMessageById};

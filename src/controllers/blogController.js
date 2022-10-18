@@ -162,6 +162,13 @@ const deletePost = async(request, response) =>{
 // Creating the comment
 const createComment = async(request, response) =>{
     try{
+      const token = request.header("auth_token")
+      
+      if(!token)
+        return response.status(401).json({
+            "commentError": "Please login to comment!"
+        })
+
         const {error} = blogValidationSchema.validate(request.body)
 
         if (error)

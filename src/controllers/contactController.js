@@ -24,46 +24,6 @@ const sendMessage = async(request, response) =>{
             "received message": receivedMessage
         })
 
-        // Email sender details
-        const transporter = nodemailer.createTransport({
-            service:"gmail",
-            auth: {
-                user: request.body.email,
-                pass: process.env.NODEMAILER_PASSWORD
-            },
-            tls: {
-                rejectUnauthorized: false
-            }
-        })
-
-        // Send verification email to user
-        const mailOptions = {
-            from: `"${request.body.names}"`,
-            to: "niyonshutijeanette4@gmail.com",
-            subject: "You have a new client message",
-            html: `
-            <div style="padding: 10px;"> 
-                <h4> 
-                ${request.body.message}
-                </h4>
-            </div>
-            `
-        }
-
-        // Sending the email
-        transporter.sendMail(mailOptions, function(error, info){
-            if(error){
-                console.log(error)
-            }
-
-            else{
-                console.log("Message sent!")
-                 
-            }
-            response.status(200).json({
-                "replyMessageSuccess": "Message sent!"
-            })
-        })
     }
     
     catch(error){
@@ -166,7 +126,6 @@ const replyMessage = async (request, response) => {
             subject: "Ernest's portfolio reply message",
             html: `
             <div style="padding: 10px;">
-                <h3> <span style="color: #414A4C;">${senderMessage.names}</span> thank you for your message! </h3> 
                 <h4> 
                 ${senderMessage.replyMessage}
                 </h4>
@@ -188,6 +147,7 @@ const replyMessage = async (request, response) => {
                 "replyMessageSuccess": "Message sent!",
                 "repliedMessage": senderMessage.replyMessage
             })
+            console.log(senderMessage.replyMessage)
         })
 
     } 

@@ -1,13 +1,9 @@
 import Joi from "@hapi/joi";
 
 const blogValidationSchema = Joi.object({
-    title: Joi.string().required().messages({
-        "string.empty": "The title can not be empty"
-    }),
+    title: Joi.string(),
 
-    postBody: Joi.string().required().messages({
-        "string.empty": "The body can not be empty"
-    }),
+    postBody: Joi.string(),
 
     postImage: Joi.string(),
 
@@ -15,7 +11,11 @@ const blogValidationSchema = Joi.object({
 
     authorName: Joi.string(),
     authorImage: Joi.string(),
-    dateCreated: Joi.string()
+    dateCreated: Joi.string(),
+    commentBody: Joi.string(),
+    commentorName: Joi.string(),
+    commentorImage: Joi.string(),
+    dateCommented: Joi.string()
 
 })
 

@@ -33,7 +33,12 @@ router.get("/getAllPosts", blogController.getPosts);
 router.get("/getSinglePost/:id", blogController.getSinglePost);
 router.put("/updatePost/:id", upload, blogController.updatePost);
 router.delete("/deletePost/:id", blogController.deletePost);
-
+router.put("/createComment/:id", blogController.createComment);
+router.get("/getAllComments/:id", blogController.getAllComments);
+router.put("/likePost/:id", blogController.likePost);
+router.get("/getAllLikes/:id", blogController.getAllLikes);
+router.put("/unlikePost/:id", blogController.unlikePost);
+router.get("/getAllUnlikes/:id", blogController.getAllUnlikes);
 
 
 export default router

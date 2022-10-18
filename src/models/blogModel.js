@@ -33,7 +33,37 @@ const blogSchema = new Schema({
 
     authorImage: {
         type: String
-    }
+    },
+
+    likes:[{
+        likingUser: {
+            type: String
+        }  
+    }],
+
+    unlikes:[{
+        unlikingUser: {
+            type: String
+        }  
+    }],
+
+    comments:[{
+        commentBody: {
+            type: String
+        },
+    
+        dateCommented: {
+            type: String
+        },
+    
+        commentorName: {
+            type: String
+        },
+    
+        commentorImage: {
+            type: String
+        }
+    }],
 
 })
 

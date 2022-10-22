@@ -62,8 +62,28 @@ const blogSchema = new Schema({
     
         commentorImage: {
             type: String
-        }
+        },
+        
+        commentReplies:[{
+            replyBody: {
+                type: String
+            },
+        
+            dateReplied: {
+                type: String
+            },
+        
+            replierName: {
+                type: String
+            },
+        
+            replierImage: {
+                type: String
+            }
+        }]
     }],
+
+    
 
 })
 

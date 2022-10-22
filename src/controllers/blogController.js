@@ -230,6 +230,31 @@ const getAllComments = async(request, response) =>{
     }
 }
 
+// Get single comment
+const getSingleComment = async(request, response) =>{
+    try{
+        const singleComment = await blogSchema.find({ '_id': request.params.id, 'comments._id': request.params.commentId }, { 'comments.$': 1 });
+        
+        if (singleComment){
+            response.status(200).json({"fetchedComment": singleComment})
+        }
+
+        else{
+            response.status(400).json({
+                "commentFetchedError": "comment not found!"
+            })  
+        }
+    }
+
+    catch(error){
+        console.log(error);
+        response.status(500).json({
+            "status": "fail", 
+            "message": error.message
+        })
+    }
+}
+
 // Like post
 const likePost = async(request, response) =>{
     try{
@@ -344,5 +369,53 @@ const getAllUnlikes = async(request, response) =>{
     }
 }
 
+// Reply on comments
+const commentReply = async(request, response) =>{
+    try{
+      const token = request.header("auth_token")
+      
+      if(!token)
+        return response.status(401).json({
+            "replyError": "Please login to reply on this comment!"
+        })
+
+        const {error} = blogValidationSchema.validate(request.body)
+
+        if (error)
+            return response.status(400).json({"validationError": error.details[0].message})
+
+        const commentReply = {
+            replyBody : request.body.replyBody,
+            replierName : request.body.replierName,
+            replierImage : request.body.replierImage,
+            dateReplied : request.body.dateReplied
+        }
+
+        const commentReplies = await blogSchema.findByIdAndUpdate({_id: request.params.id},{
+            $push: {"comments.$[element].commentReplies": commentReply } 
+        },
+        {
+            arrayFilters: [{ "element._id": {_id: request.params.commentId} }],
+            new:true
+        })
+
+        await commentReplies.save()
+
+        response.status(200).json({
+            "successMessage": "reply added successfully!",
+            "replyContent": commentReplies.commentReplies
+        })
+    }
+
+    catch(error){
+        console.log(error);
+        response.status(500).json({
+            "status": "fail", 
+            "message": error.message
+        })
+    }
+}
+
 export default {createPost, getPosts, getSinglePost, updatePost, deletePost, 
-    createComment, getAllComments, likePost, getAllLikes, unlikePost, getAllUnlikes};
+    createComment, getAllComments, likePost, getAllLikes, unlikePost, getAllUnlikes,
+    commentReply, getSingleComment};

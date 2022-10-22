@@ -39,6 +39,7 @@ router.put("/likePost/:id", blogController.likePost);
 router.get("/getAllLikes/:id", blogController.getAllLikes);
 router.put("/unlikePost/:id", blogController.unlikePost);
 router.get("/getAllUnlikes/:id", blogController.getAllUnlikes);
-
+router.put("/commentReply/:id/:commentId", blogController.commentReply);
+router.get("/getSingleComment/:id/:commentId", blogController.getSingleComment);
 
 export default router

@@ -17,6 +17,7 @@ import MemoryStore from "memorystore";
 import cookieParser from "cookie-parser";
 import socialMediaLoggedInUser from "./routes/socialMediaRoute.js";
 import blogRoute from "./routes/blogRoute.js";
+import subscriptionRoute from "./routes/subscriptionRoute.js";
 
 
 
@@ -57,11 +58,10 @@ app.use("/", cors(corsOptions), googleRoute);
 app.use("/", cors(corsOptions), facebookRoute);
 app.use("/", cors(corsOptions), githubRoute);
 app.use("/", cors(corsOptions), socialMediaLoggedInUser);
+app.use("/", cors(corsOptions), blogRoute);
+app.use("/", cors(corsOptions), subscriptionRoute);
 
 app.use('/images',express.static('src/images'));
-
-
-app.use("/", cors(corsOptions), blogRoute);
 app.use('/postImages',express.static('src/postImages'));
 
 

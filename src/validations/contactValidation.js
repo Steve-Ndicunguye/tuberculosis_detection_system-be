@@ -22,7 +22,11 @@ const contactValidationSchema = joi.object({
         "string.empty": "The message field can not be empty"
     }),
 
-    replyMessage: joi.string()
+    replyMessage: joi.string(),
+
+    subscriberEmail: joi.string().label("email").email().messages({
+        'string.email': 'Invalid email'
+    })
 })
 
 

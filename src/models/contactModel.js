@@ -27,6 +27,10 @@ const contactSchema = new Schema ({
         type: String
     },
 
+    subscriberEmail: {
+        type: String
+    },
+
     dateCreated: {
         type: Date, 
         default: Date.now

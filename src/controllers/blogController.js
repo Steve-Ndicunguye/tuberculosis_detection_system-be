@@ -317,21 +317,21 @@ const getAllLikes = async(request, response) =>{
 const unlikePost = async(request, response) =>{
     try{
 
-        const unlike = {
-            unlikingUser : request.body.unlikingUser,
+        const like = {
+            likingUser : request.body.likingUser,
         }
 
-        const postUnlikes = await blogSchema.findByIdAndUpdate({_id: request.params.id},{
-            $push:{unlikes:unlike}
+        const postLikes = await blogSchema.findByIdAndUpdate({_id: request.params.id},{
+            $pull:{likes:like}
         },{
             new:true
         })
 
-        await postUnlikes.save()
+        await postLikes.save()
 
         response.status(200).json({
             "successMessage": "Like added successfully!",
-            "likeContent": postUnlikes.unlikes
+            "likeContent": postLikes.likes
         })
     }
 

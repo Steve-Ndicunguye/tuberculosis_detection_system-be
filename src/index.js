@@ -7,17 +7,12 @@ import cors from "cors";
 import mongoose from "mongoose";
 import contactRoute from "./routes/contactRoute.js";
 import registerRoute from "./routes/registerRoute.js";
-import googleRoute from "./routes/googleRoute.js";
-import facebookRoute from "./routes/facebookRoute.js";
-import githubRoute from "./routes/githubRoute.js";
 import loginRoute from "./routes/loginRoute.js";
 import passport from "passport";
 import expressSession from "express-session";
 import MemoryStore from "memorystore";
 import cookieParser from "cookie-parser";
-import socialMediaLoggedInUser from "./routes/socialMediaRoute.js";
 import blogRoute from "./routes/blogRoute.js";
-import subscriptionRoute from "./routes/subscriptionRoute.js";
 
 
 
@@ -54,12 +49,7 @@ app.use(passport.session());
 app.use("/contact", cors(corsOptions), contactRoute);
 app.use("/register", cors(corsOptions), registerRoute);
 app.use("/login", cors(corsOptions), loginRoute);
-app.use("/", cors(corsOptions), googleRoute);
-app.use("/", cors(corsOptions), facebookRoute);
-app.use("/", cors(corsOptions), githubRoute);
-app.use("/", cors(corsOptions), socialMediaLoggedInUser);
 app.use("/", cors(corsOptions), blogRoute);
-app.use("/", cors(corsOptions), subscriptionRoute);
 
 app.use('/images',express.static('src/images'));
 app.use('/postImages',express.static('src/postImages'));

@@ -45,7 +45,12 @@ const userSchema = new Schema({
     password: {
         type: String, 
         required: true,
-    }, 
+    },
+    
+    medicalCareer: {
+        type: String, 
+        required: true,
+    },
 
     repeatPassword: {
         type: String,

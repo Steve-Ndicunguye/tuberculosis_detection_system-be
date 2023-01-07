@@ -21,14 +21,14 @@ const createNewUser = async(request, response) =>{
 
     try{
         const sender = nodemailer.createTransport({
-            service:"gmail",
-            auth: {
-                user: "elannodeveloper@gmail.com",
-                pass: process.env.NODEMAILER_PASSWORD
-            },
-            tls: {
-                rejectUnauthorized: false
-            }
+            service: "gmail",
+           auth: {
+             user: "ndicunguyesteve4@gmail.com",
+             pass: "qlbtvfaoozcoyvzb"
+           },
+           tls:{
+            rejectUnauthorized: false
+           }
         })
 
 
@@ -43,6 +43,7 @@ const createNewUser = async(request, response) =>{
             firstName: request.body.firstName,
             lastName: request.body.lastName,
             email: request.body.email,
+            medicalCareer: request.body.medicalCareer,
             password: hashedPassword,
             repeatPassword: hashedRepeatPassword,
             emailToken: crypto.randomBytes(64).toString("hex"),
@@ -52,12 +53,13 @@ const createNewUser = async(request, response) =>{
         const receiverEmail = await User.findOne({email: request.body.email})
 
         const mailOptions = {
-            from: '"Ernest RUZINDANA" <elannodeveloper@gmail.com>',
+            from: ' "Verify your email" <ndicunguyesteve4@gmail.com>',
             to: receiverEmail.email,
-            subject: "Ernest's portfolio verify your email",
+            
+            subject: "Lung Detection System - verify your email",
             html: `
             <div style="padding: 10px;">
-                <h3> <span style="color: #cba10a;">${receiverEmail.firstName} ${receiverEmail.lastName} - </span> Thank you for registering on my website! </h3> 
+                <h3> <span>${receiverEmail.firstName} ${receiverEmail.lastName} - </span> Thank you for registering on my website! </h3> 
                 <h4> Please verify your email to continue... </h4>
                 <a style="border-radius: 5px; margin-bottom: 10px; text-decoration: none; color: white; padding: 10px; cursor: pointer; background: #cba10a;" 
                 href="http://${request.headers.host}/register/verifyEmail?token=${receiverEmail.emailToken}"> 

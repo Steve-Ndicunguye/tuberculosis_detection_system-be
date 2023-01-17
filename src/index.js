@@ -5,14 +5,13 @@ const app = express();
 
 import cors from "cors";
 import mongoose from "mongoose";
-import contactRoute from "./routes/contactRoute.js";
+import resultRoute from "./routes/resultRoute.js";
 import registerRoute from "./routes/registerRoute.js";
 import loginRoute from "./routes/loginRoute.js";
 import passport from "passport";
 import expressSession from "express-session";
 import MemoryStore from "memorystore";
 import cookieParser from "cookie-parser";
-import blogRoute from "./routes/blogRoute.js";
 
 
 
@@ -46,13 +45,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use("/contact", cors(corsOptions), contactRoute);
+app.use("/", cors(corsOptions), resultRoute);
 app.use("/register", cors(corsOptions), registerRoute);
 app.use("/login", cors(corsOptions), loginRoute);
-app.use("/", cors(corsOptions), blogRoute);
 
-app.use('/images',express.static('src/images'));
-app.use('/postImages',express.static('src/postImages'));
 
 
 

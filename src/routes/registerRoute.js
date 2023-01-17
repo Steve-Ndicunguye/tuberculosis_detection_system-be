@@ -8,7 +8,7 @@ const router = express.Router()
 router.post("/createUser", UserCreated.createNewUser)
 router.get("/getRegisteredUsers", UserCreated.getAllUsers)
 router.get("/verifyEmail", UserCreated.verifyEmail)
-router.put("/assignUserRole/:id", adminAuth.authAdmin, UserCreated.assignUserRole)
+router.put("/assignUserRole/:id", UserCreated.assignUserRole)
 router.get("/getSingleUser/:id", UserCreated.getUserById)
 
 

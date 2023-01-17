@@ -13,7 +13,7 @@ const authAdmin = (request, response, next) => {
   
             console.log(decodedToken)
 
-            if(decodedToken.userEmail.role != 'admin')
+            if(decodedToken.userEmail.role !== 'admin')
             return response.status(401).json({
                 "unauthorisedError": 'Access Denied, you are not allowed to peform this action!'
             });
